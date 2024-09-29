@@ -6,7 +6,6 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
 import { createUser } from "../../lib/appwrite";
-import { getCurrentUser, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUp = () => {

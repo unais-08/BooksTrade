@@ -47,7 +47,7 @@ const TrendingItem = ({ activeItem, item }) => {
         >
           <ImageBackground
             source={{
-              uri: item.thumbnail,
+              uri: item.coverImage,
             }}
             className="w-40 h-60 rounded-[15px] my-5 overflow-hidden shadow-lg shadow-black/40"
             resizeMode="cover"
