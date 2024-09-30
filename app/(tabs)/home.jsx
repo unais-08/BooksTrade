@@ -1,21 +1,31 @@
-import { View, Text, FlatList, Image, RefreshControl } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
 import { SearchInput, Trending, EmptyState, BookCard } from "../../components";
 import { useState } from "react";
 import useAppwrite from "../../lib/useAppwrite";
-import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
+import {
+  generalOnRefresh,
+  getAllPosts,
+  getLatestPosts,
+} from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
-  const { data: posts, refetch } = useAppwrite(getAllPosts);
-  const { data: latestPosts } = useAppwrite(getLatestPosts);
+  const { data: posts, refetch: refetchPosts } = useAppwrite(getAllPosts);
+  const { data: latestPosts, refetch: refetchLatestPosts } =
+    useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
-    setRefreshing(true);
-    await refetch();
-    setRefreshing(false);
+    await generalOnRefresh(setRefreshing, refetchLatestPosts, refetchPosts);
   };
 
   return (
@@ -24,7 +34,11 @@ const Home = () => {
         data={posts}
         // data={[]} when data is not show empty state {by unais..}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <BookCard book={item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity>
+            <BookCard book={item} />
+          </TouchableOpacity>
+        )}
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
             <View className="flex justify-between items-start flex-row mb-6">
@@ -40,7 +54,7 @@ const Home = () => {
               <View className="mt-1.5">
                 <Image
                   source={images.logoSmall}
-                  className="w-9 h-10"
+                  className="w-10 h-10"
                   resizeMode="contain"
                 />
               </View>
@@ -53,7 +67,6 @@ const Home = () => {
                 Latest Books
               </Text>
               <Trending posts={latestPosts ?? []} />
-              {/* <Trending posts={[{ id: 1 }, { id: 2 }] ?? []} /> */}
             </View>
 
             <View className="w-full mt-4">

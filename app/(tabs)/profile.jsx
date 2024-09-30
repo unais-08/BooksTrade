@@ -1,27 +1,39 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { EmptyState, BookCard, InfoBox } from "../../components";
-
 import useAppwrite from "../../lib/useAppwrite";
-import { getUserPosts, signOut } from "../../lib/appwrite";
-
+import { generalOnRefresh, getUserPosts, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { icons } from "../../constants";
 import { Image } from "react-native-animatable";
 import { router } from "expo-router";
+import { useState } from "react";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
 
-  const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+  const { data: posts, refetch: refetchUserPosts } = useAppwrite(() =>
+    getUserPosts(user.$id)
+  );
   const logout = async () => {
     await signOut();
     setUser(null);
     setIsLogged(false);
-
     router.replace("/sign-in");
   };
+
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    await generalOnRefresh(setRefreshing, refetchUserPosts);
+  };
+
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
@@ -70,6 +82,9 @@ const Profile = () => {
             subtitle="No Books Uploaded"
           />
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );

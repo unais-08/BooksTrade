@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Text,
+  RefreshControl,
 } from "react-native";
 
 import { icons } from "../constants";
