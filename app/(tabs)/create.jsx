@@ -2,6 +2,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 // import { ResizeMode, Video } from "expo-av";
 import * as DocumentPicker from "expo-document-picker";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -20,9 +21,11 @@ const create = () => {
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title: "",
-    // video: null,
     coverImage: null,
     author: "",
+    genre: "",
+    description: "",
+    language: "",
   });
 
   const openPicker = async (selectType) => {
@@ -48,7 +51,13 @@ const create = () => {
   };
 
   const submit = async () => {
-    if ((form.author === "") | (form.title === "") | !form.coverImage) {
+    if (
+      (form.author === "") |
+      (form.title === "") |
+      !form.coverImage |
+      (form.genre === "") |
+      (form.description === "")
+    ) {
       return Alert.alert("Please provide all fields");
     }
 
@@ -81,7 +90,6 @@ const create = () => {
         <Text className="text-2xl text-white font-psemibold">
           Upload Book for Trade
         </Text>
-
         <FormField
           title="Book Title"
           value={form.title}
@@ -89,7 +97,6 @@ const create = () => {
           handleChangeText={(e) => setForm({ ...form, title: e })}
           otherStyles="mt-10"
         />
-
         {/* Upload Image for the Book */}
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-pmedium">
@@ -118,12 +125,32 @@ const create = () => {
             )}
           </TouchableOpacity>
         </View>
-
         <FormField
           title="Author"
           value={form.author}
           placeholder="Author of the Book...."
           handleChangeText={(e) => setForm({ ...form, author: e })}
+          otherStyles="mt-7"
+        />
+        <FormField
+          title="Genre"
+          value={form.genre}
+          placeholder="Genre of the Book...."
+          handleChangeText={(e) => setForm({ ...form, genre: e })}
+          otherStyles="mt-7"
+        />
+        <FormField
+          title="Description"
+          value={form.description}
+          placeholder="Description of the Book...."
+          handleChangeText={(e) => setForm({ ...form, description: e })}
+          otherStyles="mt-7"
+        />
+        <FormField
+          title="Language"
+          value={form.language}
+          placeholder="Language of the Book...."
+          handleChangeText={(e) => setForm({ ...form, language: e })}
           otherStyles="mt-7"
         />
 

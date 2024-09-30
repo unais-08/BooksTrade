@@ -26,7 +26,7 @@ const SearchInput = ({
       <TextInput
         className="mt-0.5 text-white text-base flex-1 font-pregular"
         value={query}
-        placeholder="Search for the Book"
+        placeholder="Search for the Book Title"
         placeholderTextColor="#CDCDE0"
         onChangeText={(e) => setQuery(e)}
       />

@@ -15,9 +15,11 @@ import {
   generalOnRefresh,
   getAllPosts,
   getLatestPosts,
+  getBookDetails,
 } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
-
+import { router } from "expo-router";
+import { useRouter } from "expo-router";
 const Home = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
   const { data: posts, refetch: refetchPosts } = useAppwrite(getAllPosts);
@@ -27,7 +29,7 @@ const Home = () => {
   const onRefresh = async () => {
     await generalOnRefresh(setRefreshing, refetchLatestPosts, refetchPosts);
   };
-
+  const router = useRouter(); // Use Expo Router's navigation
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
@@ -35,7 +37,9 @@ const Home = () => {
         // data={[]} when data is not show empty state {by unais..}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push(`/screens/details?bookId=${item.$id}`)}
+          >
             <BookCard book={item} />
           </TouchableOpacity>
         )}
@@ -64,8 +68,9 @@ const Home = () => {
 
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-lg font-pregular text-gray-100 mb-3">
-                Latest Books
+                Latest Trade Posts
               </Text>
+
               <Trending posts={latestPosts ?? []} />
             </View>
 
