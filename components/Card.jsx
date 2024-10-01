@@ -81,7 +81,6 @@ const Card = ({
             explicabo, doloremque sequi quasi deleniti minima tempore nostrum
             quam nemo mollitia dolorum repellendus adipisci ipsum placeat. Fuga
             minus assumenda voluptatibus necessitatibu
-            
           </Text>
           <CustomButton title="Connect" containerStyles="mt-5  mb-5" />
         </ScrollView>
