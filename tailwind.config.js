@@ -21,6 +21,9 @@ module.exports = {
         gray: {
           100: "#CDCDE0",
         },
+        authColor: {
+          DEFAULT: "#347d56",
+        },
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
