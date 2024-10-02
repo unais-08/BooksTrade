@@ -16,7 +16,7 @@ import { icons } from "../../constants";
 import { createBookPost } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
-const create = () => {
+const Create = () => {
   const { user } = useGlobalContext();
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
@@ -165,4 +165,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default Create;

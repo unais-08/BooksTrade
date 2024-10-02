@@ -34,6 +34,14 @@ const RootLayout = () => {
           name="screens/details"
           options={{ title: "Book Details", headerShown: false }}
         />
+        <Stack.Screen
+          name="screens/chatScreen"
+          options={{ title: "chatScreen", headerShown: false }}
+        />
+        <Stack.Screen
+          name="screens/giftchat"
+          options={{ title: "chatScreen", headerShown: false }}
+        />
       </Stack>
     </GlobalProvider>
   );

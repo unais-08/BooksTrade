@@ -64,7 +64,7 @@ const Home = () => {
               </View>
             </View>
 
-            <SearchInput />
+            <SearchInput title="Search for the Book Title" />
 
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-lg font-pregular text-gray-100 mb-3">
