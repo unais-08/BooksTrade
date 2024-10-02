@@ -6,7 +6,7 @@ const bookmark = () => {
   return (
     <SafeAreaView>
       <View className="w-full flex justify-center items-center h-full px-4">
-        <Text className="text-3xl">BookMarks (tabs)</Text>
+        <Text className="text-3xl">Chats (tabs)</Text>
       </View>
     </SafeAreaView>
   );

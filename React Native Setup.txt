@@ -120,3 +120,9 @@ Congratulations! You've successfully created a new React Native app using **Expo
 
 With this setup in place, you are ready to start building your mobile application with React Native and Expo, efficiently targeting both Android and iOS platforms!
 
+
+
+
+
+
+
