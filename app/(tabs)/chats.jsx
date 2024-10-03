@@ -5,69 +5,42 @@ import { useNavigation } from "@react-navigation/native";
 import { images } from "../../constants";
 import { SearchInput } from "../../components";
 import { router } from "expo-router";
+import { fetchUsers } from "../../lib/appwrite";
+import useAppwrite from "../../lib/useAppwrite";
 
 // ChatListScreen Component
 const ChatListScreen = () => {
   const [users, setUsers] = useState([]);
 
+  const { data: registerUsers } = useAppwrite(fetchUsers);
   useEffect(() => {
-    const fetchUsers = async () => {
-      const fetchedUsers = [
-        { id: "1", name: "John Doe", dp: "https://example.com/johndoe.jpg" },
-        {
-          id: "2",
-          name: "Jane Smith",
-          dp: "https://example.com/janesmith.jpg",
-        },
-        { id: "3", name: "Alice Johnson", dp: "https://example.com/alice.jpg" },
-        { id: "4", name: "Bob Brown", dp: "https://example.com/bobbrown.jpg" },
-        {
-          id: "5",
-          name: "Charlie Davis",
-          dp: "https://example.com/charliedavis.jpg",
-        },
-        {
-          id: "6",
-          name: "Emily White",
-          dp: "https://example.com/emilywhite.jpg",
-        },
-        {
-          id: "7",
-          name: "David Black",
-          dp: "https://example.com/davidblack.jpg",
-        },
-        {
-          id: "8",
-          name: "Frank Green",
-          dp: "https://example.com/frankgreen.jpg",
-        },
-        { id: "9", name: "Grace Lee", dp: "https://example.com/gracelee.jpg" },
-        {
-          id: "10",
-          name: "Helen Miller",
-          dp: "https://example.com/helenmiller.jpg",
-        },
-      ];
-      setUsers(fetchedUsers);
-    };
-    fetchUsers();
-  }, []);
+    if (registerUsers) {
+      setUsers(registerUsers); // Set users when the data is available
+    }
+  }, [registerUsers]);
+  // console.log(users);
 
   // Render individual chat item
-  const renderChatItem = ({ item }) => (
+  const renderChatItem = ({ item: user }) => (
     <TouchableOpacity
       className="flex-row items-center p-4 border-b border-gray-200"
-      onPress={() => router.push(`/screens/giftchat?userName=${item.name}`)}
+      onPress={() =>
+        router.push(
+          `/screens/giftchat?userId=${user?.accountId}&username=${user?.username}&avatar=${user?.avatar}`
+        )
+      }
     >
       {/* User Profile Image */}
       <Image
-        source={images.logo}
+        source={{ uri: user?.avatar }} // Ensure the correct format
         className="w-12 h-12 rounded-full"
         resizeMode="contain"
       />
       {/* Username */}
       <View className="ml-4">
-        <Text className="text-lg font-semibold text-white">{item.name}</Text>
+        <Text className="text-lg font-semibold text-white">
+          {user?.username || "UNKNOWN USERS"}
+        </Text>
         {/* Placeholder for last message or other info */}
         <Text className="text-sm text-gray-200">Last message preview</Text>
       </View>
@@ -83,7 +56,7 @@ const ChatListScreen = () => {
       <FlatList
         data={users}
         renderItem={renderChatItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(user) => user.accountId}
         showsVerticalScrollIndicator={false} // Hide scroll indicator for cleaner look
         initialNumToRender={7} // Render 7 users initially for performance
       />
