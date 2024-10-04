@@ -10,10 +10,8 @@ const DetailsScreen = () => {
   const { data: bookDetails, loading } = useAppwrite(() =>
     getBookDetails(bookId)
   ); // Fetch book details using the bookId, or display it directly
+  // console.log(bookDetails.creator.username);
 
-  const connect = ()=>{
-    router.replace("/chats");
-  }
   const {
     title,
     author,
@@ -24,7 +22,14 @@ const DetailsScreen = () => {
     creator,
     avatar,
   } = bookDetails || {};
-
+  const connect = () => {
+    const { username, avatar, $id } = creator;
+    router.push(
+      `/screens/chatScreen?userId=${$id}&username=${username}&avatar=${encodeURIComponent(
+        avatar
+      )}`
+    );
+  };
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-row items-center justify-between p-2 shadow-lg bg-white rounded-lg">

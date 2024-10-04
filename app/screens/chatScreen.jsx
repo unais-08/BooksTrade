@@ -1,90 +1,149 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { GiftedChat } from "react-native-gifted-chat";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+  subscribeToMessages,
+  sendMessage,
+  getMessagesForChat,
+} from "../../lib/appwrite"; // Assuming appwrite.js is your Appwrite file
+import { useGlobalContext } from "../../context/GlobalProvider";
+import { useLocalSearchParams } from "expo-router";
+import ChatHeader from "../../components/ChatHeader";
 
-const SingleChatScreen = ({ route }) => {
-//   const { userId, userName } = route.params; // Assuming you pass user details via route
-  const [messages, setMessages] = useState([
-    { id: "1", text: "Hey! How are you?", sender: "other" },
-    { id: "2", text: "I’m good! How about you?", sender: "self" },
-    { id: "3", text: "Doing great, thanks!", sender: "other" },
-  ]);
-  const [newMessage, setNewMessage] = useState("");
+import { KeyboardAvoidingView, Platform } from "react-native";
+import {
+  renderBubble,
+  renderComposer,
+  renderInputToolbar,
+  renderSend,
+} from "../../lib/gitftedChat";
 
-  // Function to handle sending a message
-  const sendMessage = () => {
-    if (newMessage.trim()) {
-      const newMsg = {
-        id: (messages.length + 1).toString(),
-        text: newMessage,
-        sender: "self", // You are the sender
-      };
-      setMessages((prevMessages) => [...prevMessages, newMsg]);
-      setNewMessage("");
-    }
-  };
+const ChatScreen = () => {
+  const {
+    userId: receiverID,
+    username: receiverName,
+    avatar: receiverAvatar,
+  } = useLocalSearchParams();
+  const { user } = useGlobalContext(); // Assuming global context gives you logged-in user info
+  const {
+    username: loggedUserName,
+    avatar: loggedUserAvatar,
+    $id: loggedUserId,
+  } = user;
 
-  // Render individual message
-  const renderMessage = ({ item }) => (
-    <View
-      className={`flex-row my-2 ${
-        item.sender === "self" ? "justify-end" : "justify-start"
-      }`}
-    >
-      <View
-        className={`p-3 max-w-[70%] rounded-lg ${
-          item.sender === "self" ? "bg-blue-500" : "bg-gray-300"
-        }`}
-      >
-        <Text
-          className={`${item.sender === "self" ? "text-white" : "text-black"}`}
-        >
-          {item.text}
-        </Text>
-      </View>
-    </View>
+  const [messages, setMessages] = useState([]);
+
+  const chatID =
+    loggedUserId < receiverID
+      ? `${loggedUserId}_${receiverID}`
+      : `${receiverID}_${loggedUserId}`;
+
+  // Fetch initial messages when the component loads
+  useEffect(() => {
+    const fetchChatMessages = async () => {
+      try {
+        const fetchedMessages = await getMessagesForChat(chatID);
+        const formattedMessages = fetchedMessages.map((msg) => ({
+          _id: msg.$id,
+          text: msg.messageText,
+          createdAt: new Date(msg.createdAt),
+          user: {
+            _id: msg.senderID,
+            name: msg.senderName,
+            avatar:
+              msg.senderID === loggedUserId ? loggedUserAvatar : receiverAvatar,
+          },
+        }));
+        setMessages(formattedMessages);
+      } catch (error) {
+        console.error("Error fetching chat messages:", error);
+      }
+    };
+
+    fetchChatMessages();
+  }, [chatID]);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToMessages((newMessage) => {
+      if (newMessage.chatID === chatID) {
+        // Append the new message to the message list
+        setMessages((prevMessages) =>
+          GiftedChat.append(prevMessages, [
+            {
+              _id: newMessage.$id,
+              text: newMessage.messageText,
+              createdAt: new Date(newMessage.createdAt),
+              user: {
+                _id: newMessage.senderID,
+                name: newMessage.senderName,
+                avatar:
+                  // newMessage.senderID === loggedUserId
+                  //   ? loggedUserAvatar
+                  //   : receiverAvatar,
+                  loggedUserAvatar,
+              },
+            },
+          ])
+        );
+      }
+    });
+
+    // Cleanup the subscription on component unmount
+    return () => {
+      unsubscribe();
+    };
+  }, [chatID, loggedUserId, loggedUserAvatar, receiverAvatar]);
+
+  // Handle sending a new message
+  const onSend = useCallback(
+    async (newMessages = []) => {
+      const newMessage = newMessages[0]; // Get the first message sent
+      await sendMessage({
+        chatID: chatID,
+        user: { _id: loggedUserId, name: loggedUserName },
+        receiverID: receiverID,
+        text: newMessage.text,
+      });
+
+      // Only append if the message was successfully sent
+      setMessages((prevMessages) =>
+        GiftedChat.append(prevMessages, newMessages)
+      );
+    },
+    [chatID, loggedUserId, loggedUserName, receiverID]
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      {/* Message List */}
-      <FlatList
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ padding: 10 }}
-        inverted // To display latest messages at the bottom
-      />
-
-      {/* Message Input */}
+    <>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={90} // Offset for iOS to handle keyboard over input
-        className="border-t border-gray-200 p-3 flex-row items-center"
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined} // Adjust keyboard for iOS
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0} // Offset to prevent hiding content
       >
-        <TextInput
-          value={newMessage}
-          onChangeText={setNewMessage}
-          placeholder="Type a message..."
-          className="flex-1 bg-gray-100 p-3 rounded-full"
+        <ChatHeader
+          receiverName={receiverName}
+          receiverAvatar={receiverAvatar}
         />
-        <TouchableOpacity
-          onPress={sendMessage}
-          className="ml-3 bg-blue-500 p-3 rounded-full"
-        >
-          <Text className="text-white">Send</Text>
-        </TouchableOpacity>
+        <GiftedChat
+          messages={messages}
+          onSend={onSend}
+          user={{
+            _id: loggedUserId,
+            name: loggedUserName,
+            avatar: loggedUserAvatar,
+          }}
+          renderBubble={renderBubble}
+          renderAvatar={() => null}
+          keyboardShouldPersistTaps="never" // Dismiss keyboard when tapping outside
+          minInputToolbarHeight={60} // Minimum height for the input toolbar
+          alwaysShowSend // Always show send button
+          bottomOffset={Platform.OS === "android" ? 0 : 20} // Adjust bottom offset for input
+          renderInputToolbar={renderInputToolbar}
+          renderComposer={renderComposer}
+          renderSend={renderSend}
+        />
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </>
   );
 };
 
-export default SingleChatScreen;
+export default ChatScreen;

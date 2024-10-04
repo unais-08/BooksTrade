@@ -15,7 +15,6 @@ import {
   generalOnRefresh,
   getAllPosts,
   getLatestPosts,
-  getBookDetails,
 } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { router } from "expo-router";
@@ -26,6 +25,7 @@ const Home = () => {
   const { data: latestPosts, refetch: refetchLatestPosts } =
     useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
+
   const onRefresh = async () => {
     await generalOnRefresh(setRefreshing, refetchLatestPosts, refetchPosts);
   };

@@ -22,7 +22,7 @@ module.exports = {
           100: "#CDCDE0",
         },
         authColor: {
-          DEFAULT: "#D3D3D3",
+          DEFAULT: "##ccc",
         },
       },
       fontFamily: {
