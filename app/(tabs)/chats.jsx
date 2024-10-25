@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -17,7 +17,6 @@ import {
 } from "../../lib/appwrite"; // Function to get connected users
 import { useGlobalContext } from "../../context/GlobalProvider"; // Global context for user info
 import { useRouter } from "expo-router"; // Router for navigation
-import { icons, images } from "../../constants";
 
 const ChatListScreen = () => {
   const { user } = useGlobalContext(); // Get logged-in user info from global context
@@ -37,40 +36,54 @@ const ChatListScreen = () => {
       console.error("Error fetching connected users:", error);
     }
   };
-
   useEffect(() => {
+    const fetchedUserIds = new Set(); // Track already fetched user IDs
+
+    // Fetch initial connected users when the component mounts
     fetchConnectedUsers();
 
-    const unsubscribe = subscribeToMessages((newMessage) => {
-      // Check if the sender or receiver is a new user
-      const newUser =
+    // Subscribe to new messages
+    const unsubscribe = subscribeToMessages(async (newMessage) => {
+      const newUserId =
         newMessage.senderID !== user?.$id
           ? newMessage.senderID
           : newMessage.receiverID;
 
-      // Avoid fetching the same user multiple times
-      if (!users.some((u) => u.$id === newUser)) {
-        getUsersByIds([newUser]).then((newUserDetails) => {
-          setUsers((prevUsers) => [...prevUsers, ...newUserDetails]);
-        });
+      // Check if the new user is already in the list or has been fetched before
+      if (
+        !fetchedUserIds.has(newUserId) &&
+        !users.some((u) => u.$id === newUserId)
+      ) {
+        try {
+          const newUserDetails = await getUsersByIds([newUserId]);
+          if (newUserDetails.length > 0) {
+            setUsers((prevUsers) => [...prevUsers, ...newUserDetails]);
+            fetchedUserIds.add(newUserId); // Mark this user as fetched
+          }
+        } catch (error) {
+          console.error("Error fetching new user details:", error);
+        }
       }
     });
 
+    // Cleanup subscription on component unmount
     return () => {
-      unsubscribe(); // Cleanup subscription on unmount
+      unsubscribe();
     };
-  }, [user?.$id]); // Only depend on user ID
-  // Render individual chat item
+  }, [user?.$id, users]); //uncomment karna hai
+
+  // Track fetched user IDs outside useEffect to persist across re-renders
+  const fetchedUserIds = useRef(new Set());
 
   const defaultUser = {
     $id: 5665454544, // Unique ID for the default user
-    username: "Default User",
+    username: "BookTrade Bot",
     avatar: `https://cloud.appwrite.io/v1/avatars/initials?name=Default User&project=66f64c2a0026e2fbaefc`, // URL for the default avatar
   };
 
   const renderChatItem = ({ item }) => (
     <TouchableOpacity
-      className="flex-row items-center p-4 border-b border-gray-200"
+      className="flex-row items-center py-3 border-b border-gray-700"
       onPress={() =>
         router.push(
           `/screens/chatScreen?userId=${item.$id}&username=${
@@ -91,13 +104,16 @@ const ChatListScreen = () => {
           {item?.username || "UNKNOWN USER"}
         </Text>
         {/* Placeholder for last message or other info */}
-        <Text className="text-sm text-gray-200">Last message preview</Text>
+        {/* <Text className="text-sm text-gray-200">Last message preview</Text> */}
       </View>
     </TouchableOpacity>
   );
   const usersToDisplay = users.length > 0 ? users : [defaultUser];
   return (
-    <SafeAreaView className="flex-1 bg-primary px-4 py-6">
+    <SafeAreaView className="flex-1 bg-primary px-4 py-5">
+      <View className="w-full py-3 border-b border-gray-700 mb-0">
+        <Text className="text-xl font-bold text-white text-center">Chats</Text>
+      </View>
       <FlatList
         data={usersToDisplay} // Use the usersToDisplay state
         renderItem={renderChatItem}

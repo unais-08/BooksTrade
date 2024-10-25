@@ -64,28 +64,7 @@ const Card = ({
               Description:
             </Text>
             <Text className="text-sm font-plight text-gray-600 text-justify mt-2">
-              {description} Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit. Voluptatem iste quod nihil natus iure perspiciatis in nam
-              explicabo, doloremque sequi... Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Sint eius fugit perferendis cum sed
-              accusantium modi natus, itaque debitis dolorem, rem libero omnis
-              totam vitae odit. Cupiditate necessitatibus, vitae repellat saepe
-              est eligendi, ab assumenda quisquam eaque provident maxime
-              consectetur, porro fugiat dolore eos officiis praesentium beatae
-              aperiam. Ipsa, assumenda accusamus neque repellendus sed dolor!
-              Eaque est impedit illo esse cumque consectetur? Nihil nobis dicta
-              accusantium quasi praesentium. Odio eius necessitatibus officiis
-              explicabo minus veniam repudiandae autem reprehenderit. Ex at
-              architecto soluta itaque repellat quisquam, libero dolorum ab,
-              nobis dolorem tenetur harum perferendis iste rem nam, animi
-              molestias sint autem. Aliquam error minus veniam vero excepturi
-              quibusdam quas provident ipsa optio nihil ex sequi consectetur
-              illo, sapiente molestias consequatur tempore iure, iusto nobis
-              temporibus! Id officia tempore voluptatum repellendus ea nemo
-              quisquam voluptates reiciendis iusto ad commodi enim quidem ipsam
-              a, nesciunt natus sit odit distinctio cum doloribus consectetur.
-              Facilis iste dolores, ullam magni minima voluptatem exercitationem
-              odit ipsa sed perferendis? Eligendi
+              {description} 
             </Text>
           </>
         )}

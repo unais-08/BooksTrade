@@ -65,9 +65,20 @@ const ChatScreen = () => {
   useEffect(() => {
     const unsubscribe = subscribeToMessages((newMessage) => {
       if (newMessage.chatID === chatID) {
-        // Append the new message to the message list
-        setMessages((prevMessages) =>
-          GiftedChat.append(prevMessages, [
+        setMessages((prevMessages) => {
+          const messageExists = prevMessages.some(
+            (msg) => msg._id === newMessage.$id
+          );
+
+          if (messageExists) {
+            console.warn(
+              "Duplicate message detected, skipping:",
+              newMessage.$id
+            );
+            return prevMessages; // Skip adding duplicate
+          }
+
+          return GiftedChat.append(prevMessages, [
             {
               _id: newMessage.$id,
               text: newMessage.messageText,
@@ -76,14 +87,13 @@ const ChatScreen = () => {
                 _id: newMessage.senderID,
                 name: newMessage.senderName,
                 avatar:
-                  // newMessage.senderID === loggedUserId
-                  //   ? loggedUserAvatar
-                  //   : receiverAvatar,
-                  loggedUserAvatar,
+                  newMessage.senderID === loggedUserId
+                    ? loggedUserAvatar
+                    : receiverAvatar,
               },
             },
-          ])
-        );
+          ]);
+        });
       }
     });
 
@@ -91,9 +101,8 @@ const ChatScreen = () => {
     return () => {
       unsubscribe();
     };
-  }, [chatID, loggedUserId, loggedUserAvatar, receiverAvatar]);
+  }, [chatID, loggedUserId, loggedUserAvatar, receiverAvatar]); //ye  uncomment karna hai
 
-  // Handle sending a new message
   const onSend = useCallback(
     async (newMessages = []) => {
       const newMessage = newMessages[0]; // Get the first message sent
@@ -104,14 +113,10 @@ const ChatScreen = () => {
         text: newMessage.text,
       });
 
-      // Only append if the message was successfully sent
-      setMessages((prevMessages) =>
-        GiftedChat.append(prevMessages, newMessages)
-      );
+      // Don't manually append; rely on real-time updates
     },
     [chatID, loggedUserId, loggedUserName, receiverID]
   );
-
   return (
     <>
       <KeyboardAvoidingView

@@ -9,9 +9,28 @@ const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   getCurrentUser()
+  //     .then((res) => {
+  //       if (res) {
+  //         setIsLogged(true);
+  //         setUser(res);
+  //       } else {
+  //         setIsLogged(false);
+  //         setUser(null);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching user:", error); 
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, []);
   useEffect(() => {
-    getCurrentUser()
-      .then((res) => {
+    const fetchUser = async () => {
+      try {
+        const res = await getCurrentUser();
         if (res) {
           setIsLogged(true);
           setUser(res);
@@ -19,13 +38,14 @@ const GlobalProvider = ({ children }) => {
           setIsLogged(false);
           setUser(null);
         }
-      })
-      .catch((error) => {
-        console.error("Error fetching user:", error); 
-      })
-      .finally(() => {
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchUser();
   }, []);
 
   return (
