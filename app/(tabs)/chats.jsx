@@ -36,7 +36,13 @@ const ChatListScreen = () => {
       console.error("Error fetching connected users:", error);
     }
   };
+
+  const fetchedUserIds = useRef(new Set()); // Use useRef correctly within the component
+
+
+
   useEffect(() => {
+    console.log("from chatsList.jsx...");
     const fetchedUserIds = new Set(); // Track already fetched user IDs
 
     // Fetch initial connected users when the component mounts
@@ -70,10 +76,7 @@ const ChatListScreen = () => {
     return () => {
       unsubscribe();
     };
-  }, [user?.$id, users]); //uncomment karna hai
-
-  // Track fetched user IDs outside useEffect to persist across re-renders
-  const fetchedUserIds = useRef(new Set());
+  }, [user?.$id]); //uncomment karna hai
 
   const defaultUser = {
     $id: 5665454544, // Unique ID for the default user
