@@ -24,6 +24,7 @@ const ChatListScreen = () => {
   const router = useRouter(); // Get router for navigation
   const [users, setUsers] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
   const onRefresh = async () => {
     await generalOnRefresh(fetchConnectedUsers);
   };
@@ -36,9 +37,6 @@ const ChatListScreen = () => {
       console.error("Error fetching connected users:", error);
     }
   };
-
-  const fetchedUserIds = useRef(new Set()); // Use useRef correctly within the component
-
 
 
   useEffect(() => {
@@ -63,20 +61,27 @@ const ChatListScreen = () => {
         try {
           const newUserDetails = await getUsersByIds([newUserId]);
           if (newUserDetails.length > 0) {
-            setUsers((prevUsers) => [...prevUsers, ...newUserDetails]);
-            fetchedUserIds.add(newUserId); // Mark this user as fetched
+            setUsers((prevUsers) => {
+              // Ensure no duplicates by checking if the user is already added
+              const isAlreadyAdded = prevUsers.some(
+                (u) => u.$id === newUserDetails[0].$id
+              );
+              if (!isAlreadyAdded) {
+                fetchedUserIds.add(newUserDetails[0].$id);
+                return [...prevUsers, newUserDetails[0]];
+              }
+              return prevUsers;
+            });
           }
         } catch (error) {
-          console.error("Error fetching new user details:", error);
+          console.error("Error adding new user from subscription:", error);
         }
       }
     });
 
-    // Cleanup subscription on component unmount
-    return () => {
-      unsubscribe();
-    };
-  }, [user?.$id]); //uncomment karna hai
+    // Cleanup the subscription on unmount
+    return () => unsubscribe();
+  }, [user]);
 
   const defaultUser = {
     $id: 5665454544, // Unique ID for the default user

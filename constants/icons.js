@@ -12,7 +12,7 @@ import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import send from "../assets/icons/send.png";
-
+import sendBtn from "../assets/icons/sendBtn.png";
 export default {
   play,
   bookmark,
@@ -27,5 +27,6 @@ export default {
   logout,
   eyeHide,
   eye,
-  send
+  send,
+  sendBtn,
 };
