@@ -38,7 +38,6 @@ const ChatListScreen = () => {
     }
   };
 
-
   useEffect(() => {
     console.log("from chatsList.jsx...");
     const fetchedUserIds = new Set(); // Track already fetched user IDs
@@ -80,8 +79,11 @@ const ChatListScreen = () => {
     });
 
     // Cleanup the subscription on unmount
-    return () => unsubscribe();
-  }, [user]);
+    return () => {
+      console.log("unsubscribe from ...chatsList.jsx");
+      unsubscribe();
+    };
+  }, [user]); //uncomment karna hai
 
   const defaultUser = {
     $id: 5665454544, // Unique ID for the default user

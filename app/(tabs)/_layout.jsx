@@ -86,6 +86,21 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
+          name="trade"
+          options={{
+            title: "Trade",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={icons.play}
+                color={color}
+                name="Trade"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="profile"
           options={{
             title: "Profile",

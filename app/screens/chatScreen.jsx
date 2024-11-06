@@ -39,7 +39,7 @@ const ChatScreen = () => {
 
   // Fetch initial messages when the component loads
   useEffect(() => {
-    console.log("from chatListScreen.jsx...fetchchatMessage");
+    console.log("from Conversation Screen.jsx...fetchChatMessages");
     const fetchChatMessages = async () => {
       try {
         const fetchedMessages = await getMessagesForChat(chatID);
@@ -64,8 +64,8 @@ const ChatScreen = () => {
   }, [chatID]);
 
   useEffect(() => {
-    console.log("from chatListScreen.jsx...");
-
+    console.log("from Conversation Screen.jsx...subscribeToMessages");
+    console.log("Setting up real-time message subscription...");
     const unsubscribe = subscribeToMessages((newMessage) => {
       if (newMessage.chatID === chatID) {
         setMessages((prevMessages) => {
@@ -102,9 +102,10 @@ const ChatScreen = () => {
 
     // Cleanup the subscription on component unmount
     return () => {
+      console.log("Cleaning up subscription...");
       unsubscribe();
     };
-  }, [chatID, loggedUserId, loggedUserAvatar, receiverAvatar]); //ye  uncomment karna hai
+  }, [chatID, loggedUserId]); //ye  uncomment karna hai
 
   const onSend = useCallback(
     async (newMessages = []) => {

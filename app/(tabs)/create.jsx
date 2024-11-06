@@ -18,6 +18,7 @@ import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 const Create = () => {
   const { user } = useGlobalContext();
+  
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title: "",
@@ -66,6 +67,8 @@ const Create = () => {
       await createBookPost({
         ...form,
         userId: user.$id,
+        ownerName:user.username,
+        ownerAvatar:user.avatar
       });
 
       Alert.alert("Success", "Post uploaded successfully");
