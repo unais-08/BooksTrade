@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 
 const Card = ({
@@ -9,15 +8,26 @@ const Card = ({
   description,
   language,
   username,
-  avatar,
 }) => {
+  //make flipkart style button
   return (
-    // Define the truncated version of the text
-
-    <View className="flex-1 items-center justify-center mt-10">
+    // items-center justify-center in this div have this css so if any problem occurs test this first
+    <View className="flex-1 mt-3">
       {/* Main Card Body */}
 
       {/* Cover Image */}
+      <View className="ml-2">
+        {title && (
+          <Text className="text-lg font-pmedium uppercase text-black-100 tracking-tighter">
+            {title}
+          </Text>
+        )}
+        {author && (
+          <Text className="text-sm font-pregular text-bluish-DEFUALT capitalize tracking-tighter">
+            By : {author}
+          </Text>
+        )}
+      </View>
       <View className="flex items-center justify-center  ">
         {coverImage && (
           <Image
@@ -64,7 +74,7 @@ const Card = ({
               Description:
             </Text>
             <Text className="text-sm font-plight text-gray-600 text-justify mt-2">
-              {description} 
+              {description}
             </Text>
           </>
         )}

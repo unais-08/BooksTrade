@@ -35,12 +35,18 @@ const Profile = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-gray-50 h-full">
       <FlatList
         data={posts}
         // data={[]} when data is not show empty state {by unais..}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <BookCard book={item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => router.push(`/screens/details?bookId=${item.$id}`)}
+          >
+            <BookCard book={item} flag={false}/>
+          </TouchableOpacity>
+        )}
         ListHeaderComponent={() => (
           <View className="w-full justify-center items-center mt-6 mb-12 px-4">
             <TouchableOpacity
@@ -49,7 +55,7 @@ const Profile = () => {
             >
               <Image source={icons.logout} className="w-6 h-6" />
             </TouchableOpacity>
-            <View className="w-16 h-16 border-secondary rounded-lg justify-center items-center">
+            <View className="w-16 h-16  rounded-lg justify-center items-center">
               <Image
                 source={{ uri: user?.avatar }}
                 className="w-[90%] h-[90%] rounded-lg"

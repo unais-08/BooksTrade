@@ -7,6 +7,8 @@ import {
   View,
   SafeAreaView,
   RefreshControl,
+  TextInput,
+  Platform,
 } from "react-native";
 
 import {
@@ -17,6 +19,8 @@ import {
 } from "../../lib/appwrite"; // Function to get connected users
 import { useGlobalContext } from "../../context/GlobalProvider"; // Global context for user info
 import { useRouter } from "expo-router"; // Router for navigation
+import { CustomeHeader, SearchInput } from "../../components";
+import { StatusBar } from "expo-status-bar";
 
 const ChatListScreen = () => {
   const { user } = useGlobalContext(); // Get logged-in user info from global context
@@ -90,10 +94,9 @@ const ChatListScreen = () => {
     username: "BookTrade Bot",
     avatar: `https://cloud.appwrite.io/v1/avatars/initials?name=Default User&project=66f64c2a0026e2fbaefc`, // URL for the default avatar
   };
-
   const renderChatItem = ({ item }) => (
     <TouchableOpacity
-      className="flex-row items-center py-3 border-b border-gray-700"
+      className="flex-row items-center p-4 border-b border-gray-200"
       onPress={() =>
         router.push(
           `/screens/chatScreen?userId=${item.$id}&username=${
@@ -104,38 +107,52 @@ const ChatListScreen = () => {
     >
       {/* User Profile Image */}
       <Image
-        source={{ uri: item?.avatar }} // Ensure the correct format
-        className="w-12 h-12 rounded-full"
-        resizeMode="contain"
+        source={{ uri: item?.avatar }}
+        className="w-14 h-14 rounded-full"
+        resizeMode="cover"
       />
-      {/* Username */}
-      <View className="ml-4">
-        <Text className="text-lg font-semibold text-white">
+      {/* Username and Last Message */}
+      <View className="ml-4 flex-1">
+        <Text className="text-lg font-semibold text-gray-800">
           {item?.username || "UNKNOWN USER"}
         </Text>
-        {/* Placeholder for last message or other info */}
-        {/* <Text className="text-sm text-gray-200">Last message preview</Text> */}
+        <Text className="text-sm text-gray-600 mt-1" numberOfLines={1}>
+          Last message preview...
+        </Text>
       </View>
+      {/* Time */}
+      <Text className="text-xs text-gray-500">12:30 PM</Text>
     </TouchableOpacity>
   );
+
   const usersToDisplay = users.length > 0 ? users : [defaultUser];
+
   return (
-    <SafeAreaView className="flex-1 bg-primary px-4 py-5">
-      <View className="w-full py-3 border-b border-gray-700 mb-0">
-        <Text className="text-xl font-bold text-white text-center">Chats</Text>
-      </View>
-      <FlatList
-        data={usersToDisplay} // Use the usersToDisplay state
-        renderItem={renderChatItem}
-        keyExtractor={(item) => item.$id} // Ensure unique key
-        showsVerticalScrollIndicator={false} // Hide scroll indicator for cleaner look
-        initialNumToRender={7} // Render 7 users initially for performance
-        contentContainerStyle={{ paddingBottom: 20 }} // Add space at the bottom
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
-    </SafeAreaView>
+    <View className="flex-1 bg-gray-50 mt-5">
+      <SafeAreaView className="">
+        <View className="z-10 bg-white shadow-sm pt-2">
+          {Platform.OS === "android" && (
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+          )}
+          <CustomeHeader title="Chats List" showBackButton={true} />
+          {/* Search Bar */}
+          <View className="px-4 py-2">
+            <SearchInput title="Search Chat" />
+          </View>
+        </View>
+        <FlatList
+          data={usersToDisplay}
+          renderItem={renderChatItem}
+          keyExtractor={(item) => item.$id}
+          showsVerticalScrollIndicator={false}
+          initialNumToRender={7}
+          contentContainerStyle={{ paddingTop: 2 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+      </SafeAreaView>
+    </View>
   );
 };
 

@@ -30,7 +30,7 @@ const Home = () => {
   };
   const router = useRouter(); // Use Expo Router's navigation
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className=" bg-gray-50 h-full">
       <FlatList
         data={posts}
         // data={[]} when data is not show empty state {by unais..}
@@ -47,10 +47,10 @@ const Home = () => {
           <View className="flex my-1 px-3">
             <View className="flex justify-between items-start flex-row mb-3">
               <View className="mt-2">
-                <Text className="font-pmedium text-sm text-gray-100">
+                <Text className="font-pregular text-xs text-black-100">
                   Welcome
                 </Text>
-                <Text className="text-xl font-psemibold tracking-wider text-white">
+                <Text className="text-base font-pmedium tracking-wider text-black-100">
                   {user?.username.toUpperCase()}
                 </Text>
               </View>
@@ -59,15 +59,15 @@ const Home = () => {
             <SearchInput title="Search for the Book Title" />
 
             <View className="w-full flex-1 pt-5 pb-0">
-              <Text className="text-lg font-pregular text-gray-100 mb-1">
+              <Text className="text-lg font-pmedium  text-black-200 mb-1">
                 Latest Trade Posts
               </Text>
 
               <Trending posts={latestPosts ?? []} />
             </View>
 
-            <View className="w-full">
-              <Text className="text-lg font-pregular text-gray-100">
+            <View className="w-full ">
+              <Text className="text-lg font-pmedium  text-black-200 mb-2">
                 Explore
               </Text>
             </View>

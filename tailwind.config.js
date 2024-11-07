@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#161622",
+        // primary: "#161622",
+        primary: "#FFFFFF",
         secondary: {
           DEFAULT: "#FF9C01",
           100: "#FF9001",
@@ -23,6 +24,9 @@ module.exports = {
         },
         authColor: {
           DEFAULT: "##ccc",
+        },
+        bluish: {
+          DEFUALT: "#4285F4",
         },
       },
       fontFamily: {

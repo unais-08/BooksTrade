@@ -4,7 +4,7 @@ import {
   subscribeToMessages,
   sendMessage,
   getMessagesForChat,
-} from "../../lib/appwrite"; // Assuming appwrite.js is your Appwrite file
+} from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { useLocalSearchParams } from "expo-router";
 import ChatHeader from "../../components/ChatHeader";

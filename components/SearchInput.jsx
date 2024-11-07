@@ -17,17 +17,20 @@ const SearchInput = ({
   placeholder,
   handleChangeText,
   otherStyles,
-  ...props
 }) => {
   const pathname = usePathname();
   const [query, setQuery] = useState("");
   return (
-    <View className={` flex flex-row items-center space-x-4 w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-secondary ${otherStyles}`}>
+    <View
+    // focus:border-secondary ${otherStyles} border-gray-50
+      className={` flex flex-row items-center space-x-4 w-full h-12 px-4 bg-white rounded-md border border-gray-300 `}
+    >
       <TextInput
-        className="mt-0.5 text-white text-base flex-1 font-pregular"
+        className="mt-0.5 text-gray-700 text-base flex-1 font-pregular"
+        //  className=" text-gray-700 bg-gray-50 text-base"
         value={query}
         placeholder={`${title}`}
-        placeholderTextColor="#CDCDE0"
+        placeholderTextColor="#9CA3AF"
         onChangeText={(e) => setQuery(e)}
       />
       <TouchableOpacity
