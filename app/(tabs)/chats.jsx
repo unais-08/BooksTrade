@@ -116,9 +116,9 @@ const ChatListScreen = () => {
         <Text className="text-lg font-semibold text-gray-800">
           {item?.username || "UNKNOWN USER"}
         </Text>
-        <Text className="text-sm text-gray-600 mt-1" numberOfLines={1}>
+        {/* <Text className="text-sm text-gray-600 mt-1" numberOfLines={1}>
           Last message preview...
-        </Text>
+        </Text> */}
       </View>
       {/* Time */}
       <Text className="text-xs text-gray-500">12:30 PM</Text>

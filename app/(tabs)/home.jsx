@@ -2,12 +2,11 @@ import {
   View,
   Text,
   FlatList,
-  Image,
   RefreshControl,
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { images } from "../../constants";
+
 import { SearchInput, Trending, EmptyState, BookCard } from "../../components";
 import { useState } from "react";
 import useAppwrite from "../../lib/useAppwrite";
@@ -28,6 +27,7 @@ const Home = () => {
   const onRefresh = async () => {
     await generalOnRefresh(setRefreshing, refetchLatestPosts, refetchPosts);
   };
+
   const router = useRouter(); // Use Expo Router's navigation
   return (
     <SafeAreaView className=" bg-gray-50 h-full">

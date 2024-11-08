@@ -6,15 +6,15 @@ import { icons } from "../../constants";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
-    <View className="flex items-center justify-center gap-2">
+    <View className="flex items-center justify-center gap-1">
       <Image
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className="w-6 h-6"
+        className="w-5 h-5"
       />
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+        className={`${focused ? "font-semibold" : "font-normal"} text-[10px]`}
         style={{ color: color }}
       >
         {name}
@@ -28,14 +28,26 @@ const TabLayout = () => {
     <>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#FFA001",
-          tabBarInactiveTintColor: "#9CA3AF",
+          tabBarActiveTintColor: "#3B82F6", // More professional blue
+          tabBarInactiveTintColor: "#6B7280", // Softer gray
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: "#F7F7F7",
+            backgroundColor: "white",
             borderTopWidth: 1,
-            // borderTopColor: "#232533",
-            height: 84,
+            borderTopColor: "#E5E7EB", // Subtle border
+            height: 70, // Reduced height
+            paddingBottom: 10,
+            paddingTop: 5,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: -2,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
           },
         }}
       >
@@ -117,8 +129,7 @@ const TabLayout = () => {
         />
       </Tabs>
 
-      {/* <Loader isLoading={loading} /> */}
-      <StatusBar backgroundColor="#161622" style="light" />
+      <StatusBar backgroundColor="#FFFFFF" style="dark" />
     </>
   );
 };

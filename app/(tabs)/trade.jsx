@@ -4,6 +4,7 @@ import { fetchTradeRequests, handleUpdateStatus } from "../../lib/appwrite"; // 
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomeHeader from "../../components/CustomeHeader";
+import { Try } from "expo-router/build/views/Try";
 
 const TradeRequestsScreen = () => {
   const [tradeRequests, setTradeRequests] = useState([]);
@@ -12,12 +13,27 @@ const TradeRequestsScreen = () => {
 
   //   console.log(user);
   const getTradeRequests = async () => {
+    if (user?.$id) {
+      // Check if user is logged in
+      try {
+        const requests = await fetchTradeRequests(user?.username); // Assuming user.$id is the ownerName
+        // Handle the fetched trade requests (e.g., set state)
+        setTradeRequests(requests);
+      } catch (error) {
+        console.error("Error fetching trade requests:", error);
+      }
+    } else {
+      console.log("User  is not logged in, skipping fetch.");
+      setTradeRequests([]); // Optionally clear trade requests if user is logged out
+    }
+
     const requests = await fetchTradeRequests(user?.username);
     setTradeRequests(requests);
   };
   useEffect(() => {
     getTradeRequests();
   }, [user?.$id]);
+
   //   console.log(tradeRequests);
 
   const updateTradeStatus = async (documentId, bookID, newStatus) => {
@@ -36,7 +52,7 @@ const TradeRequestsScreen = () => {
         </Text>
       </View>
       <Text className="text-sm text-gray-600 mb-1">
-      Requested a trade for the book:
+        Requested a trade for the book:
       </Text>
       <Text className="text-lg font-bold text-blue-600 mb-2 tracking-wider capitalize">
         {item.bookTitle}
@@ -51,7 +67,9 @@ const TradeRequestsScreen = () => {
               : "bg-red-500"
           }`}
         />
-        <Text className="text-sm text-black-100 tracking-wide">Current Status: {item.status}</Text>
+        <Text className="text-sm text-black-100 tracking-wide">
+          Current Status: {item.status}
+        </Text>
       </View>
       {item.status === "Pending" && (
         <View className="flex-row justify-between">
@@ -59,13 +77,17 @@ const TradeRequestsScreen = () => {
             onPress={() => updateTradeStatus(item.$id, item.bookID, "Accepted")}
             className="px-4 py-2 bg-green-500 rounded-lg shadow-md flex-1 mr-2"
           >
-            <Text className="text-white text-center font-semibold">Approve Trade</Text>
+            <Text className="text-white text-center font-semibold">
+              Approve Trade
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => updateTradeStatus(item.$id, item.bookID, "Rejected")}
             className="px-4 py-2 bg-red-600 rounded-lg shadow-md flex-1"
           >
-            <Text className="text-white text-center font-semibold">Decline Trade</Text>
+            <Text className="text-white text-center font-semibold">
+              Decline Trade
+            </Text>
           </TouchableOpacity>
         </View>
       )}

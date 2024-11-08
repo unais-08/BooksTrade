@@ -78,6 +78,7 @@ const ChatScreen = () => {
               "Duplicate message detected, skipping:",
               newMessage.$id
             );
+           
             return prevMessages; // Skip adding duplicate
           }
 
@@ -128,9 +129,11 @@ const ChatScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : undefined} // Adjust keyboard for iOS
         keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0} // Offset to prevent hiding content
       >
+        {/* <CustomeHeader title="Chat" showBackButton={true} /> */}
         <ChatHeader
-          receiverName={receiverName}
           receiverAvatar={receiverAvatar}
+          receiverName={receiverName}
+          showBackButton={true}
         />
         <GiftedChat
           messages={messages}
