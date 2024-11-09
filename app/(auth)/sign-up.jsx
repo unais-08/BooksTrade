@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  Alert,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
@@ -39,21 +48,17 @@ const SignUp = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+      >
         <View
           className="w-full flex justify-center h-full px-4 my-6"
           style={{
             minHeight: Dimensions.get("window").height - 150,
           }}
         >
-          {/* <Image
-            source={images.bookLogo}
-            resizeMode="contain"
-            className="w-[150px] h-[80px]"
-          /> */}
-
-          <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
-            Sign up to Books&Trade
+          <Text className="text-2xl font-pmedium text-gray-800 mt-6 text-center">
+            Sign up to BooksTrade
           </Text>
 
           <FormField
@@ -62,12 +67,15 @@ const SignUp = () => {
             handleChangeText={(e) => setForm({ ...form, email: e })}
             otherStyles="mt-7"
             keyboardType="email-address"
+            placeholder="Enter your email"
           />
+
           <FormField
             title="Username"
             value={form.username}
             handleChangeText={(e) => setForm({ ...form, username: e })}
             otherStyles="mt-7"
+            placeholder="Choose a username"
           />
 
           <FormField
@@ -75,22 +83,31 @@ const SignUp = () => {
             value={form.password}
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
+            secureTextEntry
+            placeholder="Create a password"
           />
 
-          <CustomButton
-            title="Register"
-            handlePress={submit}
-            containerStyles="mt-7"
-            isLoading={isSubmitting}
-          />
+          <TouchableOpacity
+            onPress={submit}
+            className={`mt-7 bg-blue-600 rounded-md py-3 flex items-center justify-center ${
+              isSubmitting ? "opacity-50" : ""
+            }`}
+            disabled={isSubmitting} // Disable button when loading
+          >
+            {isSubmitting ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text className="text-white text-lg font-semibold">Register</Text>
+            )}
+          </TouchableOpacity>
 
           <View className="flex justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-gray-100 font-pregular">
-              Have an account already?
+            <Text className="text-base text-gray-600">
+              Have an account already ?
             </Text>
             <Link
               href="/sign-in"
-              className="text-lg font-psemibold text-secondary"
+              className="text-base font-semibold text-blue-600 tracking-wider"
             >
               Sign In
             </Link>

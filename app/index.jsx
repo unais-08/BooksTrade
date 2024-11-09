@@ -12,45 +12,46 @@ const Welcome = () => {
   if (!loading && isLogged) return <Redirect href="/home" />;
 
   return (
-    <SafeAreaView className="bg-primary h-full">
-      {/* <Loader isLoading={loading} /> */}
+    <SafeAreaView className="bg-gray-900 h-full">
+    {/* <Loader isLoading={loading} /> */}
 
-      <ScrollView
-        contentContainerStyle={{
-          height: "100%",
-        }}
-      >
-        <View className="w-full flex justify-center items-center h-full px-4">
-          <View className="relative mt-5">
-            <Text className="text-3xl text-white font-bold text-center">
-              Discover Endless{"\n"}
-              Possibilities with{"\n"}
-              <Text className="text-secondary-200">BookTrade</Text>
-            </Text>
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+      }}
+    >
+      <View className="relative mt-5">
+        <Text className="text-3xl text-white font-pmedium text-center">
+        Innovating the Future {"\n"}
+        of Book Distribution.{"\n"}
+          <Text className="text-teal-400">BookTrade</Text>
+        </Text>
 
-            <Image
-              source={images.path}
-              className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
-              resizeMode="contain"
-            />
-          </View>
+        <Image
+          source={images.path}
+          className="w-[150px] h-[20px] absolute -bottom-2 -right-8"
+          resizeMode="contain"
+        />
+      </View>
 
-          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with BookTrade
-          </Text>
+      <Text className="text-md font-light text-gray-300 mt-7 text-center">
+        Where Creativity Meets Innovation: Embark on a Journey of Limitless
+        Exploration with BookTrade
+      </Text>
 
-          <CustomButton
-            title="Continue with Email"
-            handlePress={() => router.push("/sign-in")}
-            containerStyles="w-full mt-7"
-          />
-        </View>
-      </ScrollView>
+      <CustomButton
+        title="Continue with Email"
+        handlePress={() => router.push("/sign-in")}
+        containerStyles="w-full mt-7 bg-teal-600 rounded-lg shadow-md"
+      />
+    </ScrollView>
 
-      <StatusBar backgroundColor="#161622" style="light" />
-    </SafeAreaView>
-  );
+    <StatusBar backgroundColor="#161622" style="light" />
+  </SafeAreaView>
+);
 };
 
 export default Welcome;

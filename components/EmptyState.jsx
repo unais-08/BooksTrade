@@ -13,21 +13,17 @@ const EmptyState = ({ title, subtitle }) => {
         className="w-[270px] h-[216px]"
       />
 
-      <Text
-        className="text-sm font-pmedium text-gray-100 capitalize"
-        
-
-      >
+      <Text className="text-sm font-pmedium text-black-100 capitalize">
         {title}
       </Text>
-      <Text className="text-xl text-center font-psemibold text-white mt-2 capitalize">
+      <Text className="text-xl text-center font-psemibold text-black-100 mt-2 capitalize">
         {subtitle}
       </Text>
 
       <CustomButton
         title="Back to Explore"
         handlePress={() => router.push("/home")}
-        containerStyles="w-full my-5"
+        containerStyles="w-full my-5 bg-blue-600"
       />
     </View>
   );
