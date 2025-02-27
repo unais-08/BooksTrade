@@ -26,5 +26,3 @@ Developed for the B.Tech final year project (2024-2025) by:
 
 - Shaikh Unais
 - Ashutosh
-- Rehan
-- Vishal
