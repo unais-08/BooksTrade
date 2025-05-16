@@ -7,13 +7,11 @@ import {
   ScrollView,
   Dimensions,
   Alert,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 
-import { images } from "../../constants";
-import { CustomButton, FormField } from "../../components";
+import { FormField } from "../../components";
 import { createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 

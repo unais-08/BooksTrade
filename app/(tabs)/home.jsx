@@ -23,7 +23,7 @@ const Home = () => {
   const { data: latestPosts, refetch: refetchLatestPosts } =
     useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
- 
+
   const onRefresh = async () => {
     await generalOnRefresh(setRefreshing, refetchLatestPosts, refetchPosts);
   };
@@ -58,13 +58,13 @@ const Home = () => {
 
             <SearchInput title="Search for the Book Title" />
 
-            <View className="w-full flex-1 pt-5 pb-0">
+            {/* <View className="w-full flex-1 pt-5 pb-0">
               <Text className="text-lg font-pmedium  text-black-200 mb-1">
                 Latest Trade Posts
               </Text>
 
               <Trending posts={latestPosts ?? []} />
-            </View>
+            </View> */}
 
             <View className="w-full ">
               <Text className="text-lg font-pmedium  text-black-200 mb-2">

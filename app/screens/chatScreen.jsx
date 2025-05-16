@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import {
   subscribeToMessages,
@@ -78,7 +78,7 @@ const ChatScreen = () => {
               "Duplicate message detected, skipping:",
               newMessage.$id
             );
-           
+
             return prevMessages; // Skip adding duplicate
           }
 

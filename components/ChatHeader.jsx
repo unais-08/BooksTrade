@@ -1,6 +1,5 @@
-import React from "react";
 import { View, Image, Text } from "react-native-animatable";
-import { images } from "../constants";
+
 import { TouchableOpacity } from "react-native";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";

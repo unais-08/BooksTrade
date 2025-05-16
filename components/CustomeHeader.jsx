@@ -9,7 +9,6 @@ const CustomeHeader = ({
   const navigation = useNavigation();
 
   return (
-    // <View className="flex-row items-center justify-between bg-blue-600 p-1 shadow-lg">
     <View className="flex-row items-center justify-between bg-white p-1 shadow-lg ">
       {showBackButton && (
         <TouchableOpacity onPress={() => navigation.goBack()} className="p-2">

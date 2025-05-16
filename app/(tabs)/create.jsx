@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { router } from "expo-router";
-// import { ResizeMode, Video } from "expo-av";
 import * as DocumentPicker from "expo-document-picker";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,7 +15,7 @@ import {
 } from "react-native";
 import { icons } from "../../constants";
 import { createBookPost } from "../../lib/appwrite";
-import { CustomButton, CustomeHeader, FormField } from "../../components";
+import { CustomeHeader, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { Ionicons } from "@expo/vector-icons";
 const Create = () => {

@@ -4,7 +4,6 @@ import { fetchTradeRequests, handleUpdateStatus } from "../../lib/appwrite"; // 
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomeHeader from "../../components/CustomeHeader";
-import { Try } from "expo-router/build/views/Try";
 
 const TradeRequestsScreen = () => {
   const [tradeRequests, setTradeRequests] = useState([]);

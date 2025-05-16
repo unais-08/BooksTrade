@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   FlatList,
   TouchableOpacity,
@@ -7,7 +7,6 @@ import {
   View,
   SafeAreaView,
   RefreshControl,
-  TextInput,
   Platform,
 } from "react-native";
 

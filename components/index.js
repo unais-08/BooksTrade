@@ -6,7 +6,6 @@ import EmptyState from "./EmptyState";
 import BookCard from "./BookCard";
 import InfoBox from "./InfoBox";
 import CustomeHeader from "./CustomeHeader.jsx";
-// import Loader from "./Loader";
 
 export {
   CustomButton,
