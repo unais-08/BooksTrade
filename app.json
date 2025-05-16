@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "BooksTrade",
-    "scheme": "BooksTrade",
+    "name": "Bookstrade",
+    "scheme": "bookstrade",
     "slug": "booktrade",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,12 +17,11 @@
       "bundleIdentifier": "com.unais08.BooksTrade"
     },
     "android": {
+      "package": "com.unais08.BooksTrade",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff",
-        "package": "com.unais.BookTrade"
-      },
-      "package": "com.unais08.BooksTrade"
+        "backgroundColor": "#ffffff"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
