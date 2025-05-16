@@ -6,14 +6,14 @@ const BookCard = ({
   flag = true,
 }) => {
   const [visit, setVisit] = useState(false);
-  // console.log(creator?.username);mb-3
+  
   return (
     // I have to add shadow on bookimage name section remove form main container shadow (shadow-xl)
     <View className="bg-white flex flex-col items-center mb-1">
       {/* Book image and name */}
       <View className="flex flex-row w-full gap-2 items-start pb-2 pt-4 mt-1 shadow-sm shadow-gray-400 ">
         <View className="flex justify-center items-center mr-2 ">
-          <View className="w-[100px] h-[140px]  overflow-hidden ml-1">
+          <View className="w-[100px] h-[140px] overflow-hidden ml-1">
             <Image
               source={{ uri: coverImage }}
               className="w-full h-full"
