@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -16,6 +16,7 @@ import { createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUp = () => {
+  const router = useRouter();
   const { setUser, setIsLogged } = useGlobalContext();
 
   const [isSubmitting, setSubmitting] = useState(false);
@@ -25,9 +26,24 @@ const SignUp = () => {
     password: "",
   });
 
+  const validateEmail = (email) => {
+    // Simple email regex for basic validation
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (
+      form.username.trim() === "" ||
+      form.email.trim() === "" ||
+      form.password.trim() === ""
+    ) {
       Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    if (!validateEmail(form.email)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
     }
 
     setSubmitting(true);
@@ -40,7 +56,10 @@ const SignUp = () => {
         router.replace("/home");
       }, 100); // 100ms delay;
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Alert.alert(
+        "Error",
+        error?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }

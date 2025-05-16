@@ -1,9 +1,4 @@
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
+import { View, FlatList, TouchableOpacity, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { EmptyState, BookCard, InfoBox } from "../../components";
@@ -12,12 +7,12 @@ import { generalOnRefresh, getUserPosts, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { icons } from "../../constants";
 import { Image } from "react-native-animatable";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
-
+  const router = useRouter();
   const { data: posts, refetch: refetchUserPosts } = useAppwrite(() =>
     getUserPosts(user.$id)
   );
@@ -43,7 +38,7 @@ const Profile = () => {
           <TouchableOpacity
             onPress={() => router.push(`/screens/details?bookId=${item.$id}`)}
           >
-            <BookCard book={item} flag={false}/>
+            <BookCard book={item} flag={false} />
           </TouchableOpacity>
         )}
         ListHeaderComponent={() => (

@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { SearchInput, Trending, EmptyState, BookCard } from "../../components";
+import { SearchInput, EmptyState, BookCard } from "../../components";
 import { useState } from "react";
 import useAppwrite from "../../lib/useAppwrite";
 import {
@@ -18,10 +18,9 @@ import {
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { useRouter } from "expo-router";
 const Home = () => {
-  const { user, setUser, setIsLogged } = useGlobalContext();
+  const { user } = useGlobalContext();
   const { data: posts, refetch: refetchPosts } = useAppwrite(getAllPosts);
-  const { data: latestPosts, refetch: refetchLatestPosts } =
-    useAppwrite(getLatestPosts);
+  const { refetch: refetchLatestPosts } = useAppwrite(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {

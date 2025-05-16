@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
 
@@ -14,9 +14,10 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const router = useRouter();
 
   const submit = async () => {
-    if (form.email === "" || form.password === "") {
+    if (form.email.trim() === "" || form.password.trim() === "") {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
@@ -51,19 +52,9 @@ const SignIn = () => {
             minHeight: Dimensions.get("window").height - 100,
           }}
         >
-          {/* <Image
-          source={images.bookLogo}
-          resizeMode="contain"
-          className="w-[150px] h-[80px] self-center"
-        /> */}
-
           <Text className="text-2xl font-pmedium text-gray-800 mt-10 text-center">
             BooKTrade
           </Text>
-
-          {/* <Text className="text-lg text-gray-600 text-center mt-2">
-            Log in to your account
-          </Text> */}
 
           <FormField
             title="Email"
@@ -101,10 +92,9 @@ const SignIn = () => {
               Register
             </Link>
           </View>
-
           <View className="flex justify-center pt-5">
             <Link
-              href="/sign-up"
+              href="/forgot-password"
               className="text-base font-semibold text-blue-600 text-center tracking-wider"
             >
               Forgot Password?

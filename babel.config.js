@@ -14,8 +14,12 @@ module.exports = function (api) {
       [
         "module:react-native-dotenv", // Plugin to load environment variables
         {
-          moduleName: "@env", // Allows you to import env variables
-          path: ".env", // Path to your .env file
+          moduleName: "@env",
+          path: ".env",
+          blocklist: null,
+          allowlist: null,
+          safe: false,
+          allowUndefined: true,
         },
       ],
     ],
