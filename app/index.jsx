@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { Redirect, router } from "expo-router";
+import { router } from "expo-router";
 import { View, Text, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
@@ -9,6 +9,8 @@ import { useGlobalContext } from "../context/GlobalProvider";
 const Welcome = () => {
   const { loading, isLogged } = useGlobalContext();
   console.log("Context", isLogged);
+  console.log("Images", images); // Log the images object
+
   if (!loading && isLogged) return <Redirect href="/home" />;
 
   return (
@@ -30,7 +32,7 @@ const Welcome = () => {
             <Text className="text-teal-400">BookTrade</Text>
           </Text>
 
-          {images.path && (
+          {images?.path && (
             <Image
               source={images.path}
               className="w-[150px] h-[20px] absolute -bottom-2 -right-8"

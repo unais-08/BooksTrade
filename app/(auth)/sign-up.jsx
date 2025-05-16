@@ -36,7 +36,9 @@ const SignUp = () => {
       setUser(result);
       setIsLogged(true);
 
-      router.replace("/home");
+      setTimeout(() => {
+        router.replace("/home");
+      }, 100); // 100ms delay;
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
